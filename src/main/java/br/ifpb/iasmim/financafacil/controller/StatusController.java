@@ -1,4 +1,4 @@
-package br.ifpb.iasmim.financafacil.controllers;
+package br.ifpb.iasmim.financafacil.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
