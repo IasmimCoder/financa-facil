@@ -1,5 +1,7 @@
 package br.ifpb.iasmim.financafacil.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,5 +25,10 @@ public class UserService {
         User createdEntity = userRepository.save(entity);
         UserDTO createdDto = userMapper.toDto(createdEntity);
         return createdDto;
+    }
+
+    public List<UserDTO> findAll() {
+       List<User> users = userRepository.findAll();
+       return userMapper.toListDto(users);
     }
 }

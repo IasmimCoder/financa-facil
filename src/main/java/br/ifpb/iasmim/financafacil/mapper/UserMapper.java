@@ -1,5 +1,9 @@
 package br.ifpb.iasmim.financafacil.mapper;
 
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Component;
 
 import br.ifpb.iasmim.financafacil.model.User;
@@ -24,5 +28,13 @@ public class UserMapper {
         dto.setEmail(entity.getEmail());
         dto.setPassword(entity.getPassword());
         return dto;
+    }
+
+    public List<UserDTO> toListDto(List<User> listEntity) {
+        
+        return listEntity.stream()
+            .map(entity -> toDto(entity)) // Converte cada entidade em um DTO
+            .collect(Collectors.toList()); // Coleta os DTOs em uma lista e retorna
+
     }
 }
