@@ -1,8 +1,11 @@
 package br.ifpb.iasmim.financafacil.service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import br.ifpb.iasmim.financafacil.mapper.UserMapper;
@@ -30,5 +33,19 @@ public class UserService {
     public List<UserDTO> findAll() {
        List<User> users = userRepository.findAll();
        return userMapper.toListDto(users);
+    }
+
+    public UserDTO findById(UUID id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        if(optionalUser.isPresent()){
+            return userMapper.toDto(optionalUser.get());
+        } 
+
+        return null;
+    }
+
+    public void deleteById(UUID id) {
+        //User user = userMapper.toEntity(findById(id));
+       userRepository.deleteById(id);
     }
 }
