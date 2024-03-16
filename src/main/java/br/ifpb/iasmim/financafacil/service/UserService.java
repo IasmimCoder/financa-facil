@@ -48,4 +48,23 @@ public class UserService {
         //User user = userMapper.toEntity(findById(id));
        userRepository.deleteById(id);
     }
+
+    public UserDTO updateUser(UUID id, UserDTO updatedUserDTO){
+
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+
+            // Atualize os campos do usuário com os novos valores fornecidos
+            user.setName(updatedUserDTO.getName());
+            user.setEmail(updatedUserDTO.getEmail());
+            user.setPassword(updatedUserDTO.getPassword()); 
+            
+            // Salve as alterações no banco de dados
+            userRepository.save(user);
+            return userMapper.toDto(user);
+        }
+        
+        throw new UserNotFoundException("User not found with id: " + id);
+    }
 }
