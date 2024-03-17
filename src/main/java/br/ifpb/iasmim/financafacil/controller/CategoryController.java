@@ -1,18 +1,15 @@
 package br.ifpb.iasmim.financafacil.controller;
 
-import br.ifpb.iasmim.financafacil.model.Category;
 import br.ifpb.iasmim.financafacil.model.dto.CategoryDTO;
-import br.ifpb.iasmim.financafacil.model.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import br.ifpb.iasmim.financafacil.model.dto.CategoryDTO;
-import br.ifpb.iasmim.financafacil.model.dto.UserDTO;
 import br.ifpb.iasmim.financafacil.service.CategoryService;
 
 import java.util.List;
 import java.util.UUID;
+
 
 
 @RestController
@@ -35,7 +32,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CategoryDTO> findById(@PathVariable UUID id) {
+    public ResponseEntity<CategoryDTO> findById(@PathVariable UUID id) throws Exception {
         CategoryDTO category = categoryService.findById(id);
         return ResponseEntity.ok(category);
     }

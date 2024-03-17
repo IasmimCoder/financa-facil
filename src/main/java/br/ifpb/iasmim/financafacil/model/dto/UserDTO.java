@@ -19,13 +19,13 @@ public class UserDTO {
     @JsonIgnore
     private String password;
 
-    private List<Transaction> transactions;
+    private List<TransactionDTO> transactions;
 
 
     public UserDTO() {
     }
 
-    public UserDTO(UUID id, String name, String email, String password, List<Transaction> transactions) {
+    public UserDTO(UUID id, String name, String email, String password, List<TransactionDTO> transactions) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -65,11 +65,11 @@ public class UserDTO {
         this.password = password;
     }
 
-    public List<Transaction> getTransactions() {
+    public List<TransactionDTO> getTransactions() {
         return this.transactions;
     }
 
-    public void setTransactions(List<Transaction> transactions) {
+    public void setTransactions(List<TransactionDTO> transactions) {
         this.transactions = transactions;
     }
 

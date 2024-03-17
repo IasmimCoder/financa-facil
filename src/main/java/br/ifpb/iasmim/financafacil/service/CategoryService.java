@@ -1,12 +1,9 @@
 package br.ifpb.iasmim.financafacil.service;
 
 import br.ifpb.iasmim.financafacil.model.Category;
-import br.ifpb.iasmim.financafacil.model.User;
 import br.ifpb.iasmim.financafacil.model.dto.CategoryDTO;
-import br.ifpb.iasmim.financafacil.model.dto.UserDTO;
 import br.ifpb.iasmim.financafacil.repository.CategoryRepository;
-import exceptions.CategoryNotFoundException;
-import exceptions.UserNotFoundException;
+import exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,13 +35,13 @@ public class CategoryService {
         return categoryMapper.toListDto(categories);
     }
 
-    public CategoryDTO findById(UUID id) {
-        Optional<Category> optionalCategory = categoryRepository.findById(id);
-        if(optionalCategory.isPresent()){
-            return categoryMapper.toDto(optionalCategory.get());
-        }
+    public CategoryDTO findById(UUID id) throws Exception {
+        Category category = categoryRepository.findById(id)
+            .orElseThrow(
+                () -> new NotFoundException("Categoria não encontrada com o ID: " + id)
+            );
 
-        return null;
+        return categoryMapper.toDto(category);
     }
 
     public void deleteById(UUID id) {
@@ -66,7 +63,7 @@ public class CategoryService {
             return categoryMapper.toDto(category);
         }
 
-        throw new CategoryNotFoundException("");
+        throw new NotFoundException("");
     }
 
 }

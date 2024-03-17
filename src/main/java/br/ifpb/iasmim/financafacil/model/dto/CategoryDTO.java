@@ -8,6 +8,7 @@ public class CategoryDTO {
     private UUID id;
     private String name;
     private String description;
+    
     private List<TransactionDTO> transactions;
 
     public CategoryDTO() {

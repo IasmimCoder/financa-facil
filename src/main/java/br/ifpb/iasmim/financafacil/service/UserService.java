@@ -5,14 +5,13 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import br.ifpb.iasmim.financafacil.mapper.UserMapper;
 import br.ifpb.iasmim.financafacil.model.User;
 import br.ifpb.iasmim.financafacil.model.dto.UserDTO;
 import br.ifpb.iasmim.financafacil.repository.UserRepository;
-import exceptions.UserNotFoundException;
+import exceptions.NotFoundException;
 
 @Service
 public class UserService {
@@ -37,12 +36,10 @@ public class UserService {
     }
 
     public UserDTO findById(UUID id) {
-        Optional<User> optionalUser = userRepository.findById(id);
-        if(optionalUser.isPresent()){
-            return userMapper.toDto(optionalUser.get());
-        } 
-
-        return null;
+        User user = userRepository.findById(id) .orElseThrow(
+            () -> new NotFoundException("Categoria não encontrada com o ID: " + id)
+        );
+        return userMapper.toDto(user);
     }
 
     public void deleteById(UUID id) {
@@ -66,6 +63,6 @@ public class UserService {
             return userMapper.toDto(user);
         }
         
-        throw new UserNotFoundException("User not found with id: " + id);
+        throw new NotFoundException("User not found with id: " + id);
     }
 }

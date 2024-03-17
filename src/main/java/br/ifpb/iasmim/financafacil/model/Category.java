@@ -43,8 +43,8 @@ public class Category {
         return this.id;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
+    public void setId(UUID uuid) {
+        this.id = uuid;
     }
 
     public String getName() {
@@ -71,16 +71,6 @@ public class Category {
         this.transactions = transactions;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        if (!(o instanceof Category)) {
-            return false;
-        }
-        Category category = (Category) o;
-        return Objects.equals(id, category.id) && Objects.equals(name, category.name) && Objects.equals(description, category.description) && Objects.equals(transactions, category.transactions);
-    }
 
     @Override
     public int hashCode() {

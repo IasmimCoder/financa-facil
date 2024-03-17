@@ -16,8 +16,6 @@ public class TransactionMapper {
         entity.setDate(dto.getDate());
         entity.setValue(dto.getValue());
         entity.setType(dto.getType());
-        entity.setUser(dto.getUserId());
-        entity.setCategory(dto.getCategoryId());
         return entity;
     }
 
@@ -26,6 +24,9 @@ public class TransactionMapper {
         dto.setId(entity.getId());
         dto.setDate(entity.getDate());
         dto.setValue(entity.getValue());
+        dto.setType(entity.getType());
+        dto.setUserId(entity.getUser().getId());
+        dto.setCategoryId(entity.getCategory().getId());
         return dto;
     }
 

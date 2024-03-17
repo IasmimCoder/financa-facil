@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.ifpb.iasmim.financafacil.model.User;
@@ -11,6 +12,10 @@ import br.ifpb.iasmim.financafacil.model.dto.UserDTO;
 
 @Component
 public class UserMapper {
+
+
+    @Autowired
+    TransactionMapper transactionMapper;
 
     public User toEntity(UserDTO dto) {
         User entity = new User();
@@ -27,6 +32,7 @@ public class UserMapper {
         dto.setName(entity.getName());
         dto.setEmail(entity.getEmail());
         dto.setPassword(entity.getPassword());
+        dto.setTransactions(transactionMapper.toListDto(entity.getTransactions()));
         return dto;
     }
 

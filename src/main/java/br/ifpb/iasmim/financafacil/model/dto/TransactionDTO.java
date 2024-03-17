@@ -1,14 +1,10 @@
 package br.ifpb.iasmim.financafacil.model.dto;
 
-import br.ifpb.iasmim.financafacil.model.Category;
-import br.ifpb.iasmim.financafacil.model.User;
 import br.ifpb.iasmim.financafacil.model.enums.TransactionType;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
-
-import br.ifpb.iasmim.financafacil.model.enums.TransactionType;
 
 public class TransactionDTO {
 
@@ -16,13 +12,13 @@ public class TransactionDTO {
     private LocalDate date;
     private BigDecimal value;
     private TransactionType type;
-    private Category categoryId;
-    private User userId;
+    private UUID categoryId;
+    private UUID userId;
 
     public TransactionDTO() {
     }
 
-    public TransactionDTO(UUID id, LocalDate date, BigDecimal value, TransactionType type, Category categoryId, User userId) {
+    public TransactionDTO(UUID id, LocalDate date, BigDecimal value, TransactionType type, UUID categoryId, UUID userId) {
         this.id = id;
         this.date = date;
         this.value = value;
@@ -63,19 +59,19 @@ public class TransactionDTO {
         this.type = type;
     }
 
-    public Category getCategoryId() {
+    public UUID getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(Category categoryId) {
+    public void setCategoryId(UUID categoryId) {
         this.categoryId = categoryId;
     }
 
-    public User getUserId() {
+    public UUID getUserId() {
         return userId;
     }
 
-    public void setUserId(User userId) {
+    public void setUserId(UUID userId) {
         this.userId = userId;
     }
 
