@@ -4,19 +4,21 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import br.ifpb.iasmim.financafacil.model.enums.TransactionType;
+
 public class TransactionDTO {
 
     private UUID id;
     private LocalDate date;
     private BigDecimal value;
-    private String type;
+    private TransactionType type;
     private UUID categoryId;
     private UUID userId;
 
     public TransactionDTO() {
     }
 
-    public TransactionDTO(UUID id, LocalDate date, BigDecimal value, String type, UUID categoryId, UUID userId) {
+    public TransactionDTO(UUID id, LocalDate date, BigDecimal value, TransactionType type, UUID categoryId, UUID userId) {
         this.id = id;
         this.date = date;
         this.value = value;
@@ -49,11 +51,11 @@ public class TransactionDTO {
         this.value = value;
     }
 
-    public String getType() {
+    public TransactionType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(TransactionType type) {
         this.type = type;
     }
 
