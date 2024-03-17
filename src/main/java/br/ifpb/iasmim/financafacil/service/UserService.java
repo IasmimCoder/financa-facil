@@ -1,6 +1,7 @@
 package br.ifpb.iasmim.financafacil.service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -54,9 +55,11 @@ public class UserService {
             User user = optionalUser.get();
 
             // Atualize os campos do usuário com os novos valores fornecidos
-            user.setName(updatedUserDTO.getName());
-            user.setEmail(updatedUserDTO.getEmail());
-            user.setPassword(updatedUserDTO.getPassword()); 
+            user.setName(Objects.requireNonNullElse(updatedUserDTO.getName(), user.getName()));
+            
+            user.setEmail(Objects.requireNonNullElse(updatedUserDTO.getEmail(), user.getEmail()));
+
+            user.setPassword(Objects.requireNonNullElse(updatedUserDTO.getPassword(), user.getPassword())); 
             
             // Salve as alterações no banco de dados
             userRepository.save(user);

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -76,9 +77,11 @@ public class TransactionService {
         if (optionalTransaction.isPresent()) {
             Transaction transaction = optionalTransaction.get();
 
-            transaction.setDate(updateTransactionDTO.getDate());
-            transaction.setValue(updateTransactionDTO.getValue());
-            transaction.setType(updateTransactionDTO.getType());
+            transaction.setDate(Objects.requireNonNullElse(updateTransactionDTO.getDate(), transaction.getDate()));
+            
+            transaction.setValue(Objects.requireNonNullElse(updateTransactionDTO.getValue(), transaction.getValue()));
+            
+            transaction.setType(Objects.requireNonNullElse(updateTransactionDTO.getType(), transaction.getType()));
 
             transactionRepository.save(transaction);
             return transactionMapper.toDto(transaction);
