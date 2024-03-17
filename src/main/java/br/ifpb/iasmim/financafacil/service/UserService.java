@@ -12,6 +12,7 @@ import br.ifpb.iasmim.financafacil.mapper.UserMapper;
 import br.ifpb.iasmim.financafacil.model.User;
 import br.ifpb.iasmim.financafacil.model.dto.UserDTO;
 import br.ifpb.iasmim.financafacil.repository.UserRepository;
+import exceptions.UserNotFoundException;
 
 @Service
 public class UserService {
