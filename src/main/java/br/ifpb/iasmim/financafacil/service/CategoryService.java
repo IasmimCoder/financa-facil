@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import br.ifpb.iasmim.financafacil.mapper.CategoryMapper;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -48,22 +49,21 @@ public class CategoryService {
         categoryRepository.deleteById(id);
     }
 
-    public CategoryDTO updateCategory(UUID id, CategoryDTO updatedCategoryDTO){
+  public CategoryDTO updateCategory(UUID id, CategoryDTO updatedCategoryDTO){
+    Optional<Category> optionalCategory = categoryRepository.findById(id);
+    if (optionalCategory.isPresent()) {
+        Category category = optionalCategory.get();
 
-        Optional<Category> optionalCategory = categoryRepository.findById(id);
-        if (optionalCategory.isPresent()) {
-            Category category = optionalCategory.get();
+        // Atualize os campos do usuário com os novos valores fornecidos
+        category.setName(Objects.requireNonNullElse(updatedCategoryDTO.getName(), category.getName()));
+        category.setDescription(Objects.requireNonNullElse(updatedCategoryDTO.getDescription(), category.getDescription()));
 
-            // Atualize os campos do usuário com os novos valores fornecidos
-            category.setName(updatedCategoryDTO.getName());
-            category.setDescription(updatedCategoryDTO.getDescription());
-
-            // Salve as alterações no banco de dados
-            categoryRepository.save(category);
-            return categoryMapper.toDto(category);
-        }
-
-        throw new NotFoundException("");
+        // Salve as alterações no banco de dados
+        categoryRepository.save(category);
+        return categoryMapper.toDto(category);
     }
+
+        throw new NotFoundException("Category not found with id: " + id);
+    }   
 
 }

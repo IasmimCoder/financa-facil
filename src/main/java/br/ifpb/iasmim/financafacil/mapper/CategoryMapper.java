@@ -2,6 +2,8 @@ package br.ifpb.iasmim.financafacil.mapper;
 
 import br.ifpb.iasmim.financafacil.model.Category;
 import br.ifpb.iasmim.financafacil.model.dto.CategoryDTO;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -9,6 +11,9 @@ import java.util.stream.Collectors;
 
 @Component
 public class CategoryMapper {
+
+    @Autowired
+    private TransactionMapper transactionMapper;
 
     public Category toEntity(CategoryDTO dto){
         Category entity = new Category();
@@ -23,6 +28,7 @@ public class CategoryMapper {
         dto.setId(entity.getId());
         dto.setName(entity.getName());
         dto.setDescription(entity.getDescription());
+        dto.setTransactions(transactionMapper.toListDto(entity.getTransactions()));
         return dto;
     }
 

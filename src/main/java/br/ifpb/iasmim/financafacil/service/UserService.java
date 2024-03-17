@@ -59,7 +59,10 @@ public class UserService {
             
             user.setEmail(Objects.requireNonNullElse(updatedUserDTO.getEmail(), user.getEmail()));
 
-            user.setPassword(Objects.requireNonNullElse(updatedUserDTO.getPassword(), user.getPassword())); 
+            if (updatedUserDTO.getPassword() != null) {
+                user.setPassword(updatedUserDTO.getPassword());
+            }
+            //user.setPassword(Objects.requireNonNullElse(updatedUserDTO.getPassword(), user.getPassword())); 
             
             // Salve as alterações no banco de dados
             userRepository.save(user);
