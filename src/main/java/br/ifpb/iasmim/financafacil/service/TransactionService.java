@@ -4,7 +4,10 @@ import br.ifpb.iasmim.financafacil.mapper.TransactionMapper;
 import br.ifpb.iasmim.financafacil.model.Category;
 import br.ifpb.iasmim.financafacil.model.Transaction;
 import br.ifpb.iasmim.financafacil.model.User;
+import br.ifpb.iasmim.financafacil.model.dto.MonthlySummaryDTO;
 import br.ifpb.iasmim.financafacil.model.dto.TransactionDTO;
+import br.ifpb.iasmim.financafacil.model.enums.EnumMonth;
+import br.ifpb.iasmim.financafacil.model.enums.TransactionType;
 import br.ifpb.iasmim.financafacil.repository.CategoryRepository;
 import br.ifpb.iasmim.financafacil.repository.TransactionRepository;
 import br.ifpb.iasmim.financafacil.repository.UserRepository;
@@ -13,6 +16,10 @@ import exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -90,5 +97,32 @@ public class TransactionService {
 
         throw new NotFoundException("");
 
+    }
+
+    public List<TransactionDTO> findByMonthAndType(String monthString, int year, TransactionType type, UUID userId) {
+
+        EnumMonth monthEnum = EnumMonth.getMonthOrDefault(monthString);
+        List<Transaction> transactions = transactionRepository.findByMonthAndYearAndType(monthEnum.getMonth().getValue(), year, type, userId);
+        return transactionMapper.toListDto(transactions);
+    }
+
+    public MonthlySummaryDTO getMonthlySummary(String monthString, int year, UUID userId) {
+        EnumMonth monthEnum = EnumMonth.getMonthOrDefault(monthString);
+        // Obtém todas as transações para o mês atual
+        List<Transaction> transactions = transactionRepository.findByUserIdAndMonthAndYear(monthEnum.getMonth().getValue(), year, userId);
+
+        // Calcula o total de entradas e saídas
+        BigDecimal totalIncome = transactions.stream()
+                .filter(transaction -> transaction.getType() == TransactionType.ENTRADA)
+                .map(transaction -> transaction.getValue())
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        BigDecimal totalExpense = transactions.stream()
+                .filter(transaction -> transaction.getType() == TransactionType.SAIDA)
+                .map(transaction -> transaction.getValue())
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        // Cria e retorna o DTO do resumo mensal
+        return new MonthlySummaryDTO(monthEnum.getNome(), year, totalIncome, totalExpense);
     }
 }
