@@ -1,16 +1,15 @@
 package br.ifpb.iasmim.financafacil.controller;
 
+import br.ifpb.iasmim.financafacil.model.dto.CreateTransactionDTO;
 import br.ifpb.iasmim.financafacil.model.dto.MonthlySummaryDTO;
 import br.ifpb.iasmim.financafacil.model.dto.TransactionDTO;
-import br.ifpb.iasmim.financafacil.model.enums.TransactionType;
+import br.ifpb.iasmim.financafacil.model.enums.CategoryType;
 import br.ifpb.iasmim.financafacil.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.Month;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,7 +21,7 @@ public class TransactionController {
     private TransactionService transactionService;
 
     @PostMapping()
-    public ResponseEntity<TransactionDTO> create(@RequestBody TransactionDTO dto) {
+    public ResponseEntity<TransactionDTO> create(@RequestBody CreateTransactionDTO dto) {
         TransactionDTO createdTransaction = transactionService.create(dto);
         return ResponseEntity.created(null).body(createdTransaction);
     }
@@ -44,7 +43,7 @@ public class TransactionController {
             @RequestParam(value = "userId", required = true) UUID userId,
             @RequestParam(value = "month", required = false)  String month,
             @RequestParam(value = "year", required = false, defaultValue = "0") int year,
-            @RequestParam("type") TransactionType type) {
+            @RequestParam("type") CategoryType type) {
         int yearWithDefault = (year == 0)? LocalDate.now().getYear() : year;
 
         List<TransactionDTO> transactions = transactionService.findByMonthAndType(month, yearWithDefault, type, userId);

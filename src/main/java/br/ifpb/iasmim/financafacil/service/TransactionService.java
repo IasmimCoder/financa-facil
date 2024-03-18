@@ -4,10 +4,11 @@ import br.ifpb.iasmim.financafacil.mapper.TransactionMapper;
 import br.ifpb.iasmim.financafacil.model.Category;
 import br.ifpb.iasmim.financafacil.model.Transaction;
 import br.ifpb.iasmim.financafacil.model.User;
+import br.ifpb.iasmim.financafacil.model.dto.CreateTransactionDTO;
 import br.ifpb.iasmim.financafacil.model.dto.MonthlySummaryDTO;
 import br.ifpb.iasmim.financafacil.model.dto.TransactionDTO;
 import br.ifpb.iasmim.financafacil.model.enums.EnumMonth;
-import br.ifpb.iasmim.financafacil.model.enums.TransactionType;
+import br.ifpb.iasmim.financafacil.model.enums.CategoryType;
 import br.ifpb.iasmim.financafacil.repository.CategoryRepository;
 import br.ifpb.iasmim.financafacil.repository.TransactionRepository;
 import br.ifpb.iasmim.financafacil.repository.UserRepository;
@@ -17,9 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.Month;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -40,11 +38,10 @@ public class TransactionService {
     @Autowired
     TransactionMapper transactionMapper;
 
-    public TransactionDTO create(TransactionDTO dto) {
+    public TransactionDTO create(CreateTransactionDTO dto) {
         Transaction transaction = new Transaction();
         transaction.setDate(dto.getDate());
         transaction.setValue(dto.getValue());
-        transaction.setType(dto.getType());
 
         Category category = categoryRepository.findById(dto.getCategoryId())
                 .orElseThrow(
@@ -88,8 +85,6 @@ public class TransactionService {
             
             transaction.setValue(Objects.requireNonNullElse(updateTransactionDTO.getValue(), transaction.getValue()));
             
-            transaction.setType(Objects.requireNonNullElse(updateTransactionDTO.getType(), transaction.getType()));
-
             transactionRepository.save(transaction);
             return transactionMapper.toDto(transaction);
 
@@ -99,7 +94,7 @@ public class TransactionService {
 
     }
 
-    public List<TransactionDTO> findByMonthAndType(String monthString, int year, TransactionType type, UUID userId) {
+    public List<TransactionDTO> findByMonthAndType(String monthString, int year, CategoryType type, UUID userId) {
 
         EnumMonth monthEnum = EnumMonth.getMonthOrDefault(monthString);
         List<Transaction> transactions = transactionRepository.findByMonthAndYearAndType(monthEnum.getMonth().getValue(), year, type, userId);
@@ -113,12 +108,12 @@ public class TransactionService {
 
         // Calcula o total de entradas e saídas
         BigDecimal totalIncome = transactions.stream()
-                .filter(transaction -> transaction.getType() == TransactionType.ENTRADA)
+                .filter(transaction -> transaction.getCategory().getType() == CategoryType.ENTRADA)
                 .map(transaction -> transaction.getValue())
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         BigDecimal totalExpense = transactions.stream()
-                .filter(transaction -> transaction.getType() == TransactionType.SAIDA)
+                .filter(transaction -> transaction.getCategory().getType() == CategoryType.SAIDA)
                 .map(transaction -> transaction.getValue())
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 

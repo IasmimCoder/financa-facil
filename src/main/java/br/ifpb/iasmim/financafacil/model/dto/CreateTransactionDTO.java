@@ -4,22 +4,22 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
-public class TransactionDTO {
+public class CreateTransactionDTO {
 
     private UUID id;
     private LocalDate date;
     private BigDecimal value;
-    private CategoryDTO category;
+    private UUID categoryId;
     private UUID userId;
 
-    public TransactionDTO() {
+    public CreateTransactionDTO() {
     }
 
-    public TransactionDTO(UUID id, LocalDate date, BigDecimal value, CategoryDTO category, UUID userId) {
+    public CreateTransactionDTO(UUID id, LocalDate date, BigDecimal value, UUID categoryId, UUID userId) {
         this.id = id;
         this.date = date;
         this.value = value;
-        this.category = category;
+        this.categoryId = categoryId;
         this.userId = userId;
     }
 
@@ -47,12 +47,12 @@ public class TransactionDTO {
         this.value = value;
     }
 
-    public CategoryDTO getCategory() {
-        return category;
+    public UUID getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategory(CategoryDTO category) {
-        this.category = category;
+    public void setCategoryId(UUID categoryId) {
+        this.categoryId = categoryId;
     }
 
     public UUID getUserId() {
@@ -69,7 +69,7 @@ public class TransactionDTO {
                 "id=" + id +
                 ", date=" + date +
                 ", value=" + value +
-                ", category=" + category +
+                ", categoryId=" + categoryId +
                 ", userId=" + userId +
                 '}';
     }
