@@ -1,7 +1,6 @@
 package br.ifpb.iasmim.financafacil.mapper;
 
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +31,6 @@ public class UserMapper {
         dto.setName(entity.getName());
         dto.setEmail(entity.getEmail());
         dto.setPassword(entity.getPassword());
-        dto.setTransactions(transactionMapper.toListDto(entity.getTransactions()));
         return dto;
     }
 

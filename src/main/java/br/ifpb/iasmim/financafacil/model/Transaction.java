@@ -5,11 +5,9 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 
-import br.ifpb.iasmim.financafacil.model.enums.TransactionType;
+import br.ifpb.iasmim.financafacil.model.enums.CategoryType;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -29,9 +27,6 @@ public class Transaction {
     private LocalDate date;
     private BigDecimal value;
 
-    @Enumerated(EnumType.STRING)
-    private TransactionType type;
-
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
@@ -44,11 +39,10 @@ public class Transaction {
     public Transaction() {
     }
 
-    public Transaction(UUID id, LocalDate date, BigDecimal value, TransactionType type) {
+    public Transaction(UUID id, LocalDate date, BigDecimal value, CategoryType type) {
         this.id = id;
         this.date = date;
         this.value = value;
-        this.type = type;
     }
 
     public UUID getId() {
@@ -75,13 +69,7 @@ public class Transaction {
         this.value = value;
     }
 
-    public TransactionType getType() {
-        return this.type;
-    }
 
-    public void setType(TransactionType type) {
-        this.type = type;
-    }
 
     public Category getCategory() {
         return this.category;
@@ -107,12 +95,12 @@ public class Transaction {
             return false;
         }
         Transaction transaction = (Transaction) o;
-        return Objects.equals(id, transaction.id) && Objects.equals(date, transaction.date) && Objects.equals(value, transaction.value) && Objects.equals(type, transaction.type) && Objects.equals(category, transaction.category) && Objects.equals(user, transaction.user);
+        return Objects.equals(id, transaction.id) && Objects.equals(date, transaction.date) && Objects.equals(value, transaction.value) && Objects.equals(category, transaction.category) && Objects.equals(user, transaction.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, date, value, type, category, user);
+        return Objects.hash(id, date, value, category, user);
     }
 
     @Override
@@ -121,7 +109,6 @@ public class Transaction {
             " id='" + getId() + "'" +
             ", date='" + getDate() + "'" +
             ", value='" + getValue() + "'" +
-            ", type='" + getType() + "'" +
             ", category='" + getCategory() + "'" +
             ", user='" + getUser() + "'" +
             "}";

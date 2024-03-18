@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import br.ifpb.iasmim.financafacil.model.Transaction;
 import java.util.Objects;
 
 
@@ -19,8 +18,6 @@ public class UserDTO {
     @JsonIgnore
     private String password;
 
-    private List<TransactionDTO> transactions;
-
 
     public UserDTO() {
     }
@@ -30,7 +27,6 @@ public class UserDTO {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.transactions = transactions;
     }
 
     public UUID getId() {
@@ -65,14 +61,6 @@ public class UserDTO {
         this.password = password;
     }
 
-    public List<TransactionDTO> getTransactions() {
-        return this.transactions;
-    }
-
-    public void setTransactions(List<TransactionDTO> transactions) {
-        this.transactions = transactions;
-    }
-
 
     @Override
     public boolean equals(Object o) {
@@ -82,12 +70,12 @@ public class UserDTO {
             return false;
         }
         UserDTO userDTO = (UserDTO) o;
-        return Objects.equals(id, userDTO.id) && Objects.equals(name, userDTO.name) && Objects.equals(email, userDTO.email) && Objects.equals(password, userDTO.password) && Objects.equals(transactions, userDTO.transactions);
+        return Objects.equals(id, userDTO.id) && Objects.equals(name, userDTO.name) && Objects.equals(email, userDTO.email) && Objects.equals(password, userDTO.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, email, password, transactions);
+        return Objects.hash(id, name, email, password);
     }
 
     @Override
@@ -97,7 +85,6 @@ public class UserDTO {
             ", name='" + getName() + "'" +
             ", email='" + getEmail() + "'" +
             ", password='" + getPassword() + "'" +
-            ", transactions='" + getTransactions() + "'" +
             "}";
     }
     

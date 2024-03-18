@@ -1,6 +1,6 @@
 package br.ifpb.iasmim.financafacil.model.enums;
 
-public enum TransactionType {
+public enum CategoryType {
 
     ENTRADA,
     SAIDA
