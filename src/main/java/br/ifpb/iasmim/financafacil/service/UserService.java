@@ -38,7 +38,7 @@ public class UserService {
 
     public UserDTO findById(UUID id) {
         User user = userRepository.findById(id) .orElseThrow(
-            () -> new NotFoundException("Categoria não encontrada com o ID: " + id)
+            () -> new NotFoundException("Usuário não encontrado com o ID: " + id)
         );
         return userMapper.toDto(user);
     }

@@ -8,7 +8,6 @@ Uma aplicação simples para ajudar na organização das finanças pessoais, per
 - Cadastro, leitura, atualização e remoção de transações.
 - Categorização das transações para melhor organização.
 - Visualização de resumo financeiro.
-- Estatísticas simples sobre os gastos.
 
 # Tecnologias Utilizadas
 - Spring Boot
@@ -23,14 +22,14 @@ Uma aplicação simples para ajudar na organização das finanças pessoais, per
 
 # Configuração
 1. Clone o repositório: git clone https://github.com/IasmimCoder/financa-facil
-2. Configure o banco de dados PostgreSQL: [instruções aqui]
+2. Configure o banco de dados PostgreSQL
 3. Abra o projeto na sua IDE e configure as informações do banco no arquivo application.properties.
 4. Execute o aplicativo e acesse http://localhost:8080 no navegador.
 
 # Instruções de Uso
 1. Registre suas transações na interface da aplicação.
 2. Categorize cada transação para uma melhor organização.
-3. Consulte o resumo financeiro e estatísticas disponíveis na aplicação.
+3. Consulte o resumo financeiro disponível na aplicação.
 
 # Mais informações
 Leia o arquivo `FichaTecnica.md`
